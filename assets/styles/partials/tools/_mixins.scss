@@ -1,0 +1,50 @@
+
+/// Block Element
+/// @access public
+/// @param {String} $element - Element's name
+@mixin element($element) {
+    &__#{$element} {
+        @content;
+    }
+}
+
+/// Block Modifier
+/// @access public
+/// @param {String} $modifier - Modifier's name
+@mixin modifier($modifier) {
+    &--#{$modifier} {
+        @content;
+    }
+}
+
+@mixin transition($e: 'all', $d: '0.3', $a: 'ease') {
+    -webkit-transition: #{$e} #{$d}s #{$a};
+            transition: #{$e} #{$d}s #{$a};
+}
+
+@mixin bg($pos: 'center') {
+    background-size: cover;
+    background-position: #{$pos} center;
+}
+
+@mixin ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin keyframes($name) {
+    @keyframes #{$name} {
+        0%, 100% {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg)
+        }
+        40%,
+        80% {
+            transform: rotate(10deg)
+        }
+    }
+}
