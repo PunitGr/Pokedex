@@ -6,3 +6,10 @@
 
 @import "partials/base/base",
         "partials/base/helper";
+
+@import "partials/common/buttons.scss",
+        "partials/common/react-select";
+
+@import "../../app/components/PokeCard/pokecard.scss",
+        "../../app/components/PokeDash/pokedash.scss",
+        "../../app/components/NavBar/navbar.scss";

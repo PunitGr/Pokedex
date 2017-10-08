@@ -17,34 +17,20 @@
     }
 }
 
-@mixin transition($e: 'all', $d: '0.3', $a: 'ease') {
-    -webkit-transition: #{$e} #{$d}s #{$a};
-            transition: #{$e} #{$d}s #{$a};
-}
+@mixin placeholder{
+    &::-webkit-input-placeholder {
+        @content;
+    }
 
-@mixin bg($pos: 'center') {
-    background-size: cover;
-    background-position: #{$pos} center;
-}
+    &:-moz-placeholder { /* Firefox 18- */
+        @content;
+    }
 
-@mixin ellipsis() {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    &::-moz-placeholder {  /* Firefox 19+ */
+        @content;
+    }
 
-@mixin keyframes($name) {
-    @keyframes #{$name} {
-        0%, 100% {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg)
-        }
-        40%,
-        80% {
-            transform: rotate(10deg)
-        }
+    &:-ms-input-placeholder {
+        @content;
     }
 }

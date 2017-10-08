@@ -1,0 +1,33 @@
+.navbar {
+    position: relative;
+    width: 100%;
+    background: transparent;
+    border-radius: 0;
+    height: 90px;
+    margin: 0;
+    display: flex;
+    color: #555;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .navbar__logo {
+        background-image: url('../images/pokeball.png');
+        width: 70px;
+        height: 70px;
+        background-size: cover;
+        display: block;
+    }
+
+    h1 {
+        font-size: 38px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin: 0 20px;
+    }
+}
