@@ -38,11 +38,20 @@ export default class PokeCard extends Component {
 
     render() {
         const { pokemonData } = this.state;
-        if (pokemonData && this.props.show) {
+        if (pokemonData && this.props.show && this.props.layout === "grid") {
             const types = pokemonData.types.map(item => item.type.name);
             return(
                 <div className="pokemon-card" style={colorType[types[0]]}>
                     <h6>#{pokemonData.id}</h6>
+                    <img src={this.state.imageURL} alt={pokemonData.name}/>
+                    <span>{pokemonData.name}</span>
+                    <p>{types.join(", ")}</p>
+                </div>
+            );
+        } else if (pokemonData && this.props.show && this.props.layout === "list") {
+            const types = pokemonData.types.map(item => item.type.name);
+            return(
+                <div className="pokemon-card pokemon-card--list" style={colorType[types[0]]}>
                     <img src={this.state.imageURL} alt={pokemonData.name}/>
                     <span>{pokemonData.name}</span>
                     <p>{types.join(", ")}</p>
