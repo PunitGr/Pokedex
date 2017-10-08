@@ -1,0 +1,43 @@
+.pokemon-card {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 6px;
+    background-color: #fafbfc;
+    transition: all .3s;
+    margin: 15px 15px 0px 0;
+    color: #424242;
+    line-height: 20px;
+
+    &:hover {
+        box-shadow: 0 6px 15px rgba(36,37,38,0.08);
+    }
+
+    h6 {
+        display: flex;
+        align-self: flex-start;
+        margin-top: -2px;
+        font-weight: 400;
+        font-size: 12px;
+    }
+
+    &>span {
+        text-transform: capitalize;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    img {
+        width: 100px;
+        height: 98px;
+        margin: -5px auto 0;
+    }
+
+    p {
+        text-transform: capitalize;
+        font-size: 12px;
+    }
+}
