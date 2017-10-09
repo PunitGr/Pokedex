@@ -1,33 +1,33 @@
-const path = require('path')
-const webpack = require('webpack')
+const path = require("path");
+const webpack = require("webpack");
 
-let env = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+let env = process.env.NODE_ENV === "production" ? "production" : "development";
 
 let BASE_URL = {
-  development: "'http://localhost:8000'"
-}
+  development: "http://localhost:8000"
+};
 
 module.exports = {
   entry: {
-    index: './app/index.js'
+    index: "./app/index.js"
   },
   output: {
-    path: path.join(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: '[name].bundle.js'
+    path: path.join(__dirname, "./dist"),
+    publicPath: "/dist/",
+    filename: "[name].bundle.js"
   },
   module: {
     rules: [
       {
         test: /.jsx?$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/
       }
     ]
   }
 }
 
-if (env === 'production') {
+if (env === "production") {
   config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
           compressor: {
