@@ -157,11 +157,11 @@ export default class PokeDash extends Component<Props, State> {
             if (screenWidth && screenWidth > 767) {
                 changeLayoutElement = (
                     <div className="solid-btn solid-btn--ghost">
-                        <button className="ghost-btn" onClick={() => this.handleLayout("list")}>
+                        <button className={`ghost-btn ${this.state.layout === "list" ? "ghost-btn--active" : ""}`} onClick={() => this.handleLayout("list")}>
                             <i className="fa fa-list-ul" aria-hidden="true" /> List
                         </button>
 
-                        <button className="ghost-btn" onClick={() => this.handleLayout("grid")}>
+                        <button className={`ghost-btn ${this.state.layout === "grid" ? "ghost-btn--active" : ""}`} onClick={() => this.handleLayout("grid")}>
                             <i className="fa fa fa-th" aria-hidden="true" /> Grid
                         </button>
                     </div>
