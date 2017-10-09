@@ -12,6 +12,12 @@
     color: #424242;
     line-height: 20px;
 
+    @media screen and (max-width: 480px) {
+        width: calc(50% - 15px);
+        height: 170px;
+        margin: 5px 5px 0px 0;
+    }
+
     &:hover {
         box-shadow: 0 6px 15px rgba(36,37,38,0.08);
     }
@@ -57,7 +63,7 @@
             height: 70px;
             margin: 0;
         }
-        
+
         span {
             width: 120px;
         }
