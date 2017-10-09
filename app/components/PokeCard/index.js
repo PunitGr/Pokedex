@@ -38,6 +38,7 @@ export default class PokeCard extends Component {
 
     render() {
         const { pokemonData } = this.state;
+
         if (pokemonData && this.props.show && this.props.layout === "grid") {
             const types = pokemonData.types.map(item => item.type.name);
             return(
@@ -48,13 +49,16 @@ export default class PokeCard extends Component {
                     <p>{types.join(", ")}</p>
                 </div>
             );
-        } else if (pokemonData && this.props.show && this.props.layout === "list") {
+        } else if (pokemonData && this.props.show && this.props.layout === "list" && this.props.screenWidth > 767) {
             const types = pokemonData.types.map(item => item.type.name);
+            const abilities = pokemonData.abilities.map(item => item.ability.name);
+
             return(
                 <div className="pokemon-card pokemon-card--list" style={colorType[types[0]]}>
                     <img src={this.state.imageURL} alt={pokemonData.name}/>
                     <span>{pokemonData.name}</span>
                     <p>{types.join(", ")}</p>
+                    <p>{abilities.join(", ")}</p>
                 </div>
             );
         }

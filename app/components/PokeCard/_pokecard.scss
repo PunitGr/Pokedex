@@ -42,7 +42,7 @@
     }
 
     @include modifier("list") {
-        width: 100%;
+        width: 600px;
         height: 70px;
         display: flex;
         flex-direction: row;
@@ -64,6 +64,10 @@
 
         p {
             margin-bottom: 0;
+            flex-grow: 1;
+            max-width: 140px;
+            min-width: 80px;
+            width: 100%;
         }
     }
 }

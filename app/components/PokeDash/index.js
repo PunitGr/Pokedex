@@ -23,8 +23,17 @@ export default class PokeDash extends Component {
             search: "",
             typeFilter: { value: "", label: ""},
             initialResults: null,
-            layout: "grid"
+            layout: "grid",
+            screenWidth: window.innerWidth
         };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', () => {
+            this.setState({
+                screenWidth: window.innerWidth
+            });
+        });
     }
 
     componentWillMount() {
@@ -43,14 +52,17 @@ export default class PokeDash extends Component {
     }
 
     renderPokemon = () => {
-        const { results, search } = this.state;
+        const { results, search, screenWidth } = this.state;
+        const layout = screenWidth > 767 ? this.state.layout : "grid"; 
         if (Array.isArray(results)) {
             return results.map(pokemon => (
                 <PokeCard 
                     url={pokemon.url}
                     name={pokemon.name}
-                    layout={this.state.layout}
-                    key={pokemon.name}show={pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1 ? true : false}/>
+                    layout={layout}
+                    key={pokemon.name} 
+                    screenWidth={screenWidth}
+                    show={pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1 ? true : false}/>
             ));
         }
     }
@@ -110,10 +122,11 @@ export default class PokeDash extends Component {
     }
 
     render() {
-        const { results, next, previous } = this.state;
+        const { results, next, previous, screenWidth } = this.state;
         if (results) {
             let previousElement;
             let nextElement;
+            let changeLayoutElement;
 
             if (previous) { 
                 previousElement = (
@@ -128,6 +141,20 @@ export default class PokeDash extends Component {
                     <a className="solid-btn" onClick={() => this.paginate(next)}>
                         Next
                     </a>
+                );
+            }
+
+            if (screenWidth > 767) {
+                changeLayoutElement = (
+                    <div className="solid-btn solid-btn--ghost">
+                        <a className="ghost-btn" onClick={() => this.handleLayout("list")}>
+                            <i className="fa fa-list-ul" aria-hidden="true"></i> List
+                        </a>
+
+                        <a className="ghost-btn" onClick={() => this.handleLayout("grid")}>
+                            <i className="fa fa fa-th" aria-hidden="true"></i> Grid
+                        </a>
+                    </div>
                 );
             }
 
@@ -148,16 +175,7 @@ export default class PokeDash extends Component {
                             options={pokemonType}
                             onChange={this.selectChange}
                         />
-
-                        <div className="solid-btn solid-btn--ghost">
-                            <a className="ghost-btn" onClick={() => this.handleLayout("list")}>
-                                <i className="fa fa-list-ul" aria-hidden="true"></i> List
-                            </a>
-
-                            <a className="ghost-btn" onClick={() => this.handleLayout("grid")}>
-                                <i className="fa fa fa-th" aria-hidden="true"></i> Grid
-                            </a>
-                        </div>
+                        {changeLayoutElement}
                     </div>
 
                     <div className="pokedash-container__pokedash">
