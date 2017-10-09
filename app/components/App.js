@@ -3,7 +3,10 @@ import React, { Component } from "react";
 import PokeDash from "./PokeDash";
 import NavBar from "./NavBar";
 
-export default class App extends Component {
+type Props = {};
+type State = {};
+
+export default class App extends Component<Props, State> {
     render() {
         return (
             <div>

@@ -1,10 +1,24 @@
+// @flow
 import React, { Component } from "react";
 import axios from "axios";
 
 import {colorType} from "../../constants";
 
-export default class PokeCard extends Component {
-    constructor(props) {
+type Props = {
+    url: ?string,
+    show: boolean,
+    layout: ?string,
+    screenWidth: ?number
+};
+type State = {
+    pokemonData: ?Object,
+    imageURL: ?string
+};
+
+export default class PokeCard extends Component<Props, State> {
+    state: State;
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             pokemonData: null,
@@ -14,32 +28,38 @@ export default class PokeCard extends Component {
 
     componentWillMount() {
         const { url } = this.props;
-        axios.get(url)
-            .then(({ data }) => {
-                this.setState({
-                    pokemonData: data
-                }, () => {
-                    const formURL = this.state.pokemonData.forms[0].url;
-                    axios.get(formURL)
-                        .then(res => {
-                            this.setState({
-                                imageURL: res.data.sprites.front_default
-                            });
-                        })
-                        .catch( err => {
-                            console.log(err);
-                        });
+        if (url) {
+
+            axios.get(url)
+                .then(({ data }) => {
+                    this.setState({
+                        pokemonData: data
+                    }, () => {
+                        if (this.state.pokemonData) {
+                            const formURL = this.state.pokemonData.forms[0].url;
+                            axios.get(formURL)
+                                .then(res => {
+                                    this.setState({
+                                        imageURL: res.data.sprites.front_default
+                                    });
+                                })
+                                .catch( err => {
+                                    console.log(err);
+                                });
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        }
     }
 
     render() {
         const { pokemonData } = this.state;
+        const { show, layout, screenWidth } = this.props;
 
-        if (pokemonData && this.props.show && this.props.layout === "grid") {
+        if (pokemonData && show && layout === "grid") {
             const types = pokemonData.types.map(item => item.type.name);
             return(
                 <div className="pokemon-card" style={colorType[types[0]]}>
@@ -49,7 +69,7 @@ export default class PokeCard extends Component {
                     <p>{types.join(", ")}</p>
                 </div>
             );
-        } else if (pokemonData && this.props.show && this.props.layout === "list" && this.props.screenWidth > 767) {
+        } else if (pokemonData && show && layout === "list" && screenWidth && screenWidth > 767) {
             const types = pokemonData.types.map(item => item.type.name);
             const abilities = pokemonData.abilities.map(item => item.ability.name);
 

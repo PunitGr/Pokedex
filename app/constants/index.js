@@ -1,4 +1,6 @@
-export const colorType = {
+// @flow
+
+export const colorType: Object = {
     "fighting": {
         backgroundColor: "rgba(194,46,40,.5)"
     },
@@ -61,7 +63,7 @@ export const colorType = {
     }
 }
 
-export const pokemonType = [
+export const pokemonType: Array<mixed> = [
     {
         "value": "https://pokeapi.co/api/v2/type/1/",
         "label": "Normal"

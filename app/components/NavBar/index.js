@@ -1,6 +1,10 @@
+// @flow
 import React, { Component } from "react";
 
-export default class NavBar extends Component {
+type Props = {};
+type State = {};
+
+export default class NavBar extends Component<Props, State> {
     render() {
         return (
             <nav className="navbar">

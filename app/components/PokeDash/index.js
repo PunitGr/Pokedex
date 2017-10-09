@@ -8,10 +8,17 @@ import { pokemonType } from "../../constants";
 
 type Props = {};
 type State = {
-    data: ?Array<mixed>
+    next: ?string,
+    previous: ?string,
+    results: ?Object,
+    search: ?string,
+    typeFilter: ?Object,
+    initialResults: ?Object,
+    layout: ?string,
+    screenWidth: ?number
 };
 
-export default class PokeDash extends Component {
+export default class PokeDash extends Component<Props, State> {
     state: State;
 
     constructor(props: Props) {
@@ -53,7 +60,7 @@ export default class PokeDash extends Component {
 
     renderPokemon = () => {
         const { results, search, screenWidth } = this.state;
-        const layout = screenWidth > 767 ? this.state.layout : "grid"; 
+        let layout = screenWidth ? (screenWidth > 767 ? this.state.layout : "grid") : this.state.layout;
         if (Array.isArray(results)) {
             return results.map(pokemon => (
                 <PokeCard 
@@ -62,31 +69,35 @@ export default class PokeDash extends Component {
                     layout={layout}
                     key={pokemon.name} 
                     screenWidth={screenWidth}
-                    show={pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1 ? true : false}/>
+                    show={search ? (pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1 ? true : false) : true}/>
             ));
         }
     }
 
-    paginate = (url) => {
-        axios.get(url)
-            .then( response => {
-                this.setState({
-                    next: response.data.next,
-                    previous: response.data.previous,
-                    results: response.data.results,
-                    initialResults: response.data.results
+    paginate = (url: string) => {
+        if (url) {
+            axios.get(url)
+                .then( response => {
+                    this.setState({
+                        next: response.data.next,
+                        previous: response.data.previous,
+                        results: response.data.results,
+                        initialResults: response.data.results
+                    });
+                })
+                .catch( errors => {
+                    console.log(errors);
                 });
-            })
-            .catch( errors => {
-                console.log(errors);
-            });
+        }
     }
 
     handleSearch = (e: Event) => {
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        });
+        if (e.target instanceof HTMLInputElement) {
+            const { name, value } = e.target;
+            this.setState({
+                [name]: value
+            });
+        }
     }
 
     selectChange = (val: {value: ?string, label: ?string}) => {
@@ -96,20 +107,20 @@ export default class PokeDash extends Component {
             });
 
             axios.get(val.value)
-            .then( response => {
-                const newPokemonData = response.data.pokemon.map(pokemon => pokemon.pokemon);
-                this.setState({
-                    next: null,
-                    previous: null,
-                    results: newPokemonData
+                .then( response => {
+                    const newPokemonData = response.data.pokemon.map(pokemon => pokemon.pokemon);
+                    this.setState({
+                        next: null,
+                        previous: null,
+                        results: newPokemonData
+                    });
+                })
+                .catch( errors => {
+                    console.log(errors);
                 });
-            })
-            .catch( errors => {
-                console.log(errors);
-            });
         } else {
             this.setState({
-                typeFilter: { value: "", label: ""},
+                typeFilter: {value: "", label: "" },
                 results: this.state.initialResults
             });
         }
@@ -144,7 +155,7 @@ export default class PokeDash extends Component {
                 );
             }
 
-            if (screenWidth > 767) {
+            if (screenWidth && screenWidth > 767) {
                 changeLayoutElement = (
                     <div className="solid-btn solid-btn--ghost">
                         <a className="ghost-btn" onClick={() => this.handleLayout("list")}>
