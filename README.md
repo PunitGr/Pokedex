@@ -14,4 +14,4 @@ If you use `yarn` then run `yarn` or for `npm` use `npm install`
 To run it on dev server run `yarn start`. The dev server will be live on [http://localhost:8000/](http://localhost:8000/).
 
 ## Screenshot
-![Screenshot](https://github.com/PunitGr/Pokedex/tree/master/screenshot/screenshot.png)
+![Screenshot](screenshot/screenshot.png)
