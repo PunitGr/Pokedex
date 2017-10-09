@@ -36,7 +36,7 @@ export default class PokeDash extends Component<Props, State> {
     state: State;
 
     componentWillMount() {
-        axios.get("http://pokeapi.co/api/v2/pokemon/")
+        axios.get("https://pokeapi.co/api/v2/pokemon/")
             .then((response) => {
                 this.setState({
                     next: response.data.next,
