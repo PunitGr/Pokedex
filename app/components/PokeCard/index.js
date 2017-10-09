@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import {colorType} from "../../constants";
+import { colorType } from "../../constants";
 
 type Props = {
     url: ?string,
@@ -16,20 +16,19 @@ type State = {
 };
 
 export default class PokeCard extends Component<Props, State> {
-    state: State;
-
     constructor(props: Props) {
         super(props);
         this.state = {
             pokemonData: null,
             imageURL: ""
-        }
+        };
     }
+
+    state: State;
 
     componentWillMount() {
         const { url } = this.props;
         if (url) {
-
             axios.get(url)
                 .then(({ data }) => {
                     this.setState({
@@ -38,20 +37,16 @@ export default class PokeCard extends Component<Props, State> {
                         if (this.state.pokemonData) {
                             const formURL = this.state.pokemonData.forms[0].url;
                             axios.get(formURL)
-                                .then(res => {
+                                .then((res) => {
                                     this.setState({
                                         imageURL: res.data.sprites.front_default
                                     });
                                 })
-                                .catch( err => {
-                                    console.log(err);
-                                });
+                                .catch(() => {});
                         }
                     });
                 })
-                .catch((err) => {
-                    console.log(err);
-                });
+                .catch(() => {});
         }
     }
 
@@ -61,10 +56,10 @@ export default class PokeCard extends Component<Props, State> {
 
         if (pokemonData && show && layout === "grid") {
             const types = pokemonData.types.map(item => item.type.name);
-            return(
+            return (
                 <div className="pokemon-card" style={colorType[types[0]]}>
                     <h6>#{pokemonData.id}</h6>
-                    <img src={this.state.imageURL} alt={pokemonData.name}/>
+                    <img src={this.state.imageURL} alt={pokemonData.name} />
                     <span>{pokemonData.name}</span>
                     <p>{types.join(", ")}</p>
                 </div>
@@ -73,16 +68,15 @@ export default class PokeCard extends Component<Props, State> {
             const types = pokemonData.types.map(item => item.type.name);
             const abilities = pokemonData.abilities.map(item => item.ability.name);
 
-            return(
+            return (
                 <div className="pokemon-card pokemon-card--list" style={colorType[types[0]]}>
-                    <img src={this.state.imageURL} alt={pokemonData.name}/>
+                    <img src={this.state.imageURL} alt={pokemonData.name} />
                     <span>{pokemonData.name}</span>
                     <p>{types.join(", ")}</p>
                     <p>{abilities.join(", ")}</p>
                 </div>
             );
         }
-
         return null;
     }
 }

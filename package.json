@@ -10,7 +10,9 @@
     "compile-sass": "sass --watch assets/styles:assets/css app/components:assets/css --style compressed",
     "start": "NODE_ENV=development concurrently \"npm run start-dev\" \"npm run compile-sass\"",
     "start-server": "node server.js",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "fix-lint": "eslint app --fix",
+    "lint": "esw app --color --watch"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -21,19 +23,20 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "concurrently": "^3.5.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-config-standard-react": "^5.0.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb": "^16.0.0",
+    "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-standard": "^3.0.1",
+    "eslint-watch": "^3.1.2",
     "flow-bin": "^0.56.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"

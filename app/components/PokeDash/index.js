@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from "react";
 import axios from "axios";
-import PokeCard from "../PokeCard";
-import Select from 'react-select';
+import Select from "react-select";
 
+import PokeCard from "../PokeCard";
 import { pokemonType } from "../../constants";
 
 type Props = {};
@@ -19,8 +19,6 @@ type State = {
 };
 
 export default class PokeDash extends Component<Props, State> {
-    state: State;
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -28,24 +26,18 @@ export default class PokeDash extends Component<Props, State> {
             previous: null,
             results: null,
             search: "",
-            typeFilter: { value: "", label: ""},
+            typeFilter: { value: "", label: "" },
             initialResults: null,
             layout: "grid",
             screenWidth: window.innerWidth
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            this.setState({
-                screenWidth: window.innerWidth
-            });
-        });
-    }
+    state: State;
 
     componentWillMount() {
-        axios.get(`http://pokeapi.co/api/v2/pokemon/`)
-            .then( response => {
+        axios.get("http://pokeapi.co/api/v2/pokemon/")
+            .then((response) => {
                 this.setState({
                     next: response.data.next,
                     previous: response.data.previous,
@@ -53,31 +45,22 @@ export default class PokeDash extends Component<Props, State> {
                     initialResults: response.data.results
                 });
             })
-            .catch( errors => {
-                console.log(errors);
-            });
+            .catch(() => {});
     }
 
-    renderPokemon = () => {
-        const { results, search, screenWidth } = this.state;
-        let layout = screenWidth ? (screenWidth > 767 ? this.state.layout : "grid") : this.state.layout;
-        if (Array.isArray(results)) {
-            return results.map(pokemon => (
-                <PokeCard 
-                    url={pokemon.url}
-                    name={pokemon.name}
-                    layout={layout}
-                    key={pokemon.name} 
-                    screenWidth={screenWidth}
-                    show={search ? (pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1 ? true : false) : true}/>
-            ));
-        }
+    componentDidMount() {
+        window.addEventListener("resize", () => {
+            this.setState({
+                screenWidth: window.innerWidth
+            });
+        });
     }
+
 
     paginate = (url: string) => {
         if (url) {
             axios.get(url)
-                .then( response => {
+                .then((response) => {
                     this.setState({
                         next: response.data.next,
                         previous: response.data.previous,
@@ -85,9 +68,7 @@ export default class PokeDash extends Component<Props, State> {
                         initialResults: response.data.results
                     });
                 })
-                .catch( errors => {
-                    console.log(errors);
-                });
+                .catch(() => {});
         }
     }
 
@@ -107,7 +88,7 @@ export default class PokeDash extends Component<Props, State> {
             });
 
             axios.get(val.value)
-                .then( response => {
+                .then((response) => {
                     const newPokemonData = response.data.pokemon.map(pokemon => pokemon.pokemon);
                     this.setState({
                         next: null,
@@ -115,12 +96,10 @@ export default class PokeDash extends Component<Props, State> {
                         results: newPokemonData
                     });
                 })
-                .catch( errors => {
-                    console.log(errors);
-                });
+                .catch(() => {});
         } else {
             this.setState({
-                typeFilter: {value: "", label: "" },
+                typeFilter: { value: "", label: "" },
                 results: this.state.initialResults
             });
         }
@@ -132,44 +111,64 @@ export default class PokeDash extends Component<Props, State> {
         });
     }
 
+    renderPokemon = () => {
+        const { results, search, screenWidth } = this.state;
+        const layout = screenWidth && screenWidth > 767 ? this.state.layout : "grid";
+        if (Array.isArray(results)) {
+            return results.map(pokemon => (
+                <PokeCard
+                    url={pokemon.url}
+                    name={pokemon.name}
+                    layout={layout}
+                    key={pokemon.name}
+                    screenWidth={screenWidth}
+                    show={search ? (search && pokemon.name.toLowerCase().search(search.toLowerCase()) !== -1) : true}
+                />
+            ));
+        }
+        return null;
+    }
+
     render() {
-        const { results, next, previous, screenWidth } = this.state;
+        const {
+            results, next, previous, screenWidth
+        } = this.state;
         if (results) {
             let previousElement;
             let nextElement;
             let changeLayoutElement;
 
-            if (previous) { 
+            if (previous) {
                 previousElement = (
-                    <a className="solid-btn" onClick={() => this.paginate(previous)}>
+                    <button className="solid-btn" onClick={() => this.paginate(previous)}>
                         Previous
-                    </a>
+                    </button>
                 );
             }
 
             if (next) {
                 nextElement = (
-                    <a className="solid-btn" onClick={() => this.paginate(next)}>
+                    <button className="solid-btn" onClick={() => this.paginate(next)}>
                         Next
-                    </a>
+                    </button>
                 );
             }
 
             if (screenWidth && screenWidth > 767) {
                 changeLayoutElement = (
                     <div className="solid-btn solid-btn--ghost">
-                        <a className="ghost-btn" onClick={() => this.handleLayout("list")}>
-                            <i className="fa fa-list-ul" aria-hidden="true"></i> List
-                        </a>
+                        <button className="ghost-btn" onClick={() => this.handleLayout("list")}>
+                            <i className="fa fa-list-ul" aria-hidden="true" /> List
+                        </button>
 
-                        <a className="ghost-btn" onClick={() => this.handleLayout("grid")}>
-                            <i className="fa fa fa-th" aria-hidden="true"></i> Grid
-                        </a>
+                        <button className="ghost-btn" onClick={() => this.handleLayout("grid")}>
+                            <i className="fa fa fa-th" aria-hidden="true" /> Grid
+                        </button>
                     </div>
                 );
             }
 
-            return(
+            return (
                 <div className="pokedash-container">
                     <div className="pokedash-container__filter">
                         <input
@@ -178,7 +177,7 @@ export default class PokeDash extends Component<Props, State> {
                             name="search"
                             placeholder="Enter to search"
                             onChange={this.handleSearch}
-                            />
+                        />
 
                         <Select
                             name="typeFilter"

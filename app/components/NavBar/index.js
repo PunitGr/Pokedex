@@ -1,16 +1,12 @@
 // @flow
-import React, { Component } from "react";
+import React from "react";
 
-type Props = {};
-type State = {};
 
-export default class NavBar extends Component<Props, State> {
-    render() {
-        return (
-            <nav className="navbar">
-                <a className="navbar__logo"></a>
-                <h1>Pokedex</h1>
-            </nav>
-        );
-    }
-}
+const NavBar = () => (
+    <nav className="navbar">
+        <span className="navbar__logo" />
+        <h1>Pokedex</h1>
+    </nav>
+);
+
+export default NavBar;
