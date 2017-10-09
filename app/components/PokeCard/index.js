@@ -54,26 +54,42 @@ export default class PokeCard extends Component<Props, State> {
         const { pokemonData } = this.state;
         const { show, layout, screenWidth } = this.props;
 
-        if (pokemonData && show && layout === "grid") {
-            const types = pokemonData.types.map(item => item.type.name);
+        if (show && layout === "grid") {
+            const types = pokemonData && pokemonData.types.map(item => item.type.name) || [];
             return (
                 <div className="pokemon-card" style={colorType[types[0]]}>
-                    <h6>#{pokemonData.id}</h6>
-                    <img src={this.state.imageURL} alt={pokemonData.name} />
-                    <span>{pokemonData.name}</span>
-                    <p>{types.join(", ")}</p>
+                    {
+                        pokemonData && pokemonData.id
+                            ? <h6>#{pokemonData.id}</h6>
+                            : <h6>#</h6>
+                    }
+                    <img src={this.state.imageURL} alt={this.props.name} />
+                    <span>{this.props.name}</span>
+                    {
+                        pokemonData
+                            ? <p>{types.join(", ")}</p>
+                            : <p>Pokemon</p>
+                    }
                 </div>
             );
-        } else if (pokemonData && show && layout === "list" && screenWidth && screenWidth > 767) {
-            const types = pokemonData.types.map(item => item.type.name);
-            const abilities = pokemonData.abilities.map(item => item.ability.name);
+        } else if (show && layout === "list" && screenWidth && screenWidth > 767) {
+            const types = pokemonData && pokemonData.types.map(item => item.type.name) || [];
+            const abilities = pokemonData && pokemonData.abilities.map(item => item.ability.name);
 
             return (
                 <div className="pokemon-card pokemon-card--list" style={colorType[types[0]]}>
-                    <img src={this.state.imageURL} alt={pokemonData.name} />
-                    <span>{pokemonData.name}</span>
-                    <p>{types.join(", ")}</p>
-                    <p>{abilities.join(", ")}</p>
+                    <img src={this.state.imageURL} alt={this.props.name} />
+                    <span>{this.props.name}</span>
+                    {
+                        pokemonData
+                            ? <p>{types.join(", ")}</p>
+                            : <p>Pokemon</p>
+                    }
+                    {
+                        pokemonData
+                            ? <p>{abilities.join(", ")}</p>
+                            : <p></p>
+                    }
                 </div>
             );
         }
